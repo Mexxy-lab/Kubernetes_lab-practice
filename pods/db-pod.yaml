@@ -12,3 +12,19 @@ spec:
       image: postgres:9.4
       ports:
         - containerPort: 5432
+      volumeMounts:  # Volume mounting 
+        - name: pg-data
+          mountPath: /var/lib/postgresql/data
+      resources:
+        requests:
+          memory: "100Mi"
+          cpu: "100m"   # Request for 0.1 CPU cores
+        limits:
+          memory: "200Mi"
+          cpu: "500m"   # Limit for 0.5 CPU cores
+
+  volumes:
+    - name: pg-data
+      hostPath:
+        path: /var/lib/postgres
+        type: DirectoryOrCreate

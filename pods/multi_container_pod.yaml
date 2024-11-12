@@ -16,12 +16,25 @@ spec:
       volumeMounts:
         - name: data
           mountPath: /var/www/html-sample-app
-
+      resources:
+        requests:
+          memory: "100Mi"
+          cpu: "100m"   # Request for 0.1 CPU cores
+        limits:
+          memory: "200Mi"
+          cpu: "500m"   # Limit for 0.5 CPU cores
     - name: sync
       image: schoolofdevops/sync:v2
       volumeMounts:
         - name: data
           mountPath: /var/www/app
+          resources:
+      requests:
+        memory: "100Mi"
+        cpu: "100m"   # Request for 0.1 CPU cores
+      limits:
+        memory: "200Mi"
+        cpu: "500m"   # Limit for 0.5 CPU cores
 
   volumes:
     - name: data
