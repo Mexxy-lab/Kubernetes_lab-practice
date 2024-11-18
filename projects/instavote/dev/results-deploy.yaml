@@ -1,8 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
-  name: results
-  namespace: instavote
-spec: 
-  xxx
-
+metadata:
+  name: result
+  namespace: default
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  revisionHistoryLimit: 4
+  paused: false
+  replicas: 4
+  minReadySeconds: 20
+  selector:
+    matchLabels:
+      role: result
+  template:
+    metadata:
+      name: vote
+      labels:
+        app: python
+        role: result
+        version: latest
+    spec:
+      containers:
+        - name: app
+          image: schoolofdevops/vote-result:latest
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"   # Request for 0.1 CPU cores
+            limits:
+              memory: "200Mi"
+              cpu: "500m"   # Limit for 0.5 CPU cores

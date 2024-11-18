@@ -1,11 +1,16 @@
----
 apiVersion: v1
 kind: Service
 metadata:
-  name: results 
-  labels: 
-    role: results
+  name: result
+  namespace: default
+  labels:
+    role: result
 spec:
-  xxx
-
-
+  selector:
+    role: result
+    version: latest
+  ports:
+  - port: 81
+    targetPort: 81
+    nodePort: 30001
+  type: LoadBalancer

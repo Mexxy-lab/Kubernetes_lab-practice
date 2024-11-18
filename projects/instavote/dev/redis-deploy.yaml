@@ -1,8 +1,8 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis
-  namespace: instavote
+  namespace: default
 spec:
   replicas: 2
   selector:
@@ -25,4 +25,10 @@ spec:
         ports:
         - containerPort: 6379
           protocol: TCP
-      restartPolicy: Always
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"   # Request for 0.1 CPU cores
+          limits:
+            memory: "200Mi"
+            cpu: "500m"   # Limit for 0.5 CPU cores

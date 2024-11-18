@@ -1,27 +1,92 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata: 
+#   name: worker
+#   namespace: default
+# spec: 
+#   replicas: 2
+#   strategy:
+#     type: RollingUpdate
+#     rollingUpdate: 
+#       maxSurge: 1 
+#       maxUnavailable: 1 
+#   revisionHistoryLimit: 10
+#   paused: false
+#   minReadySeconds: 20
+#   selector: 
+#     matchLabels: 
+#       role: worker
+#     matchExpressions: 
+#       - {key: version, operator: In, values: [v1, v2, v3, latest]}
+#   template: 
+#     metadata:
+#       name: worker
+#       labels:
+#         app: java
+#         role: worker 
+#         version: latest
+#     spec:
+#       containers:
+#         - name: worker
+#           image: schoolofdevops/vote-worker:latest
+#           # ports:
+#           #   - containerPort: 81
+#           #     protocol: TCP
+#           resources:
+#             requests:
+#               memory: "100Mi"
+#               cpu: "100m"   # Request for 0.1 CPU cores
+#             limits:
+#               memory: "200Mi"
+#               cpu: "500m"   # Limit for 0.5 CPU cores
+
+---
 apiVersion: apps/v1
 kind: Deployment
-metadata:
+metadata: 
   name: worker
-  namespace: instavote
-spec:
+  namespace: default
+spec: 
   replicas: 2
   strategy:
     type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
+    rollingUpdate: 
+      maxSurge: 1 
+      maxUnavailable: 1 
+  revisionHistoryLimit: 10
+  paused: false
   minReadySeconds: 20
-  xxx
-  xxx
-  selector:
-    xxx
-  template:
+  selector: 
+    matchLabels: 
+      role: worker
+    matchExpressions: 
+      - {key: version, operator: In, values: [v1, v2, v3, latest]}
+  template: 
     metadata:
       name: worker
       labels:
         app: java
-        role: worker
+        role: worker 
         version: latest
     spec:
       containers:
-      - xxx
+        - name: worker
+          image: schoolofdevops/vote-worker:latest
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"   # Request for 0.1 CPU cores
+            limits:
+              memory: "200Mi"
+              cpu: "500m"   # Limit for 0.5 CPU cores
+          # env:
+          #   - name: DB_HOST
+          #     value: db.instavote.svc.cluster.local
+          #   - name: DB_PORT
+          #     value: "5432"
+          #   - name: DB_USER
+          #     value: "postgres"
+          #   - name: DB_PASSWORD
+          #     value: "postgres"
+          #   - name: DB_NAME
+          #     value: "postgres"

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vote
+  namespace: default
+data:
+  OPTION_A: Visa
+  OPTION_B: Mastercard
+
+# ---
+
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: vote2
+#   namespace: dev
+# data:
+#   OPTION_A: Apple
+#   OPTION_B: Samsung

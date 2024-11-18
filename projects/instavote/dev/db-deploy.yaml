@@ -1,19 +1,18 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
-metadata:
+metadata: 
   name: db
-  namespace: instavote
+  namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
       tier: back
-      app: postgres
-  minReadySeconds: 10
+      app: db
   template:
     metadata:
       labels:
-        app: postgres
+        app: db
         role: db
         tier: back
         version: "9.4"
@@ -22,6 +21,24 @@ spec:
       - image: postgres:9.4
         imagePullPolicy: Always
         name: db
+        env:
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres
         ports:
         - containerPort: 5432
           protocol: TCP
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"   # Request for 0.1 CPU cores
+          limits:
+            memory: "200Mi"
+            cpu: "500m"   # Limit for 0.5 CPU cores          
+      #   volumeMounts:
+      #   - mountPath: /var/lib/postgresql/data
+      #     name: db-data
+      # volumes:
+      # - name: db-data
+      #   emptyDir: {} 

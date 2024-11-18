@@ -2,15 +2,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata: 
   name: vote
-  namespace: instavote
+  namespace: dev
 spec: 
-  replicas: 8
+  replicas: 15
   strategy:
     type: RollingUpdate
     rollingUpdate: 
       maxSurge: 2 
       maxUnavailable: 1 
-  revisionHistoryLimit: 4
+  revisionHistoryLimit: 10
   paused: false
   minReadySeconds: 20
   selector: 
@@ -28,7 +28,10 @@ spec:
     spec:
       containers:
         - name: app
-          image: schoolofdevops/vote:ergerg
+          image: schoolofdevops/vote:v2
+          envFrom:
+            - configMapRef:
+                name: vote2
           ports:
             - containerPort: 80
               protocol: TCP
