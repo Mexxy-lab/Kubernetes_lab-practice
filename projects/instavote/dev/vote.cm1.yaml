@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vote2
-  namespace: dev
+  namespace: default
 data:
   OPTION_A: Apple
   OPTION_B: Samsung

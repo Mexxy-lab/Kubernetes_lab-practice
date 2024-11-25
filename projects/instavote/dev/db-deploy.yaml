@@ -23,9 +23,15 @@ spec:
         name: db
         env:
         - name: POSTGRES_USER
-          value: postgres
-        - name: POSTGRES_PASSWORD
-          value: postgres
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key:  POSTGRES_USER
+        - name: POSTGRES_PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key:  POSTGRES_PASSWD
         ports:
         - containerPort: 5432
           protocol: TCP

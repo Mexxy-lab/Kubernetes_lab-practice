@@ -25,6 +25,11 @@ spec:
         ports:
         - containerPort: 6379
           protocol: TCP
+        # Using configMap from a file as source. 
+        volumeMounts:
+          - name: redis
+            subPath: redis.conf
+            mountPath: etc/redis.conf
         resources:
           requests:
             memory: "100Mi"
@@ -32,3 +37,7 @@ spec:
           limits:
             memory: "200Mi"
             cpu: "500m"   # Limit for 0.5 CPU cores
+        volumes: # Using configMap from a file as source. 
+          - name: redis
+            configMap:
+              name: redis
