@@ -1,13 +1,16 @@
-#Recreate update strategy 
+# Rolling update strategy - Does updates in batches according to the maxSurge variable size
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: vote
+  name: vote-green
   namespace: default
 spec: 
-  replicas: 8
+  replicas: 3
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate: 
+      maxSurge: 4 
+      maxUnavailable: 1 
   revisionHistoryLimit: 10
   paused: false
   minReadySeconds: 20
@@ -15,21 +18,23 @@ spec:
     matchLabels: 
       role: vote
     matchExpressions: 
-      - {key: version, operator: In, values: [v1, v2, v3, v4]}
+      - {key: version, operator: In, values: [v1, v2, v3, v4, v5]}
   template: 
     metadata:
       name: vote
       labels:
         app: python
         role: vote
-        version: v2
+        version: v4
+        release: bluegreen
+        code: green
     spec:
       containers:
         - name: app
-          image: schoolofdevops/vote:v1
-          envFrom:
-            - configMapRef:
-                name: vote2
+          image: schoolofdevops/vote:v4
+          # envFrom:
+          #   - configMapRef:
+          #       name: vote2
           ports:
             - containerPort: 80
               protocol: TCP
