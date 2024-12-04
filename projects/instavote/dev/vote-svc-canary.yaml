@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: vote
-  namespace: dev
+  name: vote-canary
+  namespace: default
   labels:
-    role: vote
+    role: vote-canary
 spec:
   selector:
-    role: vote
+    role: vote-canary
     version: v1
   ports:
   - port: 80

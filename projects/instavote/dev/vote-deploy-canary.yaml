@@ -5,7 +5,7 @@ metadata:
   name: vote-canary
   namespace: default
 spec: 
-  replicas: 3
+  replicas: 15
   strategy:
     type: RollingUpdate
     rollingUpdate: 
@@ -16,20 +16,20 @@ spec:
   minReadySeconds: 20
   selector: 
     matchLabels: 
-      role: vote
+      role: vote-canary
     matchExpressions: 
       - {key: version, operator: In, values: [v1, v2, v3]}
   template: 
     metadata:
-      name: vote
+      name: vote-canary
       labels:
         app: python
-        role: vote
-        version: v2
+        role: vote-canary
+        version: v1
     spec:
       containers:
         - name: app
-          image: schoolofdevops/vote:v4
+          image: schoolofdevops/vote:v1
           envFrom:
             - configMapRef:
                 name: vote2
